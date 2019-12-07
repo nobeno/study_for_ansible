@@ -1,0 +1,11 @@
+- name: ruby/rbenv/bundlerインストール
+  hosts: web
+  become_user: ec2-user
+  become: yes
+  vars:
+    rbenv_ruby_version: 2.6.4
+  roles: 
+    - git
+    - nodejs
+    - ruby
+  

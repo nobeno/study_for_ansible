@@ -1,0 +1,76 @@
+- name: rbenvインスール済みか確認
+  shell: "~/.rbenv/bin/rbenv --version"
+  register: rbenv_exists
+  changed_when: False
+  ignore_errors: yes
+
+- name: Ruby依存関係インストール
+  become_user: root
+  become: yes
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - make
+      - gcc-c++
+      - openssl-devel
+      - libyaml-devel
+      - libffi-devel
+      - libicu-devel
+      - libxml2
+      - libxslt
+      - libxml2-devel
+      - libxslt-devel
+      - zlib-devel
+      - readline-devel
+      - ImageMagick
+      - ImageMagick-devel
+      - mysql-devel
+
+- name: rbenvインストール
+  git:
+    repo: https://github.com/sstephenson/rbenv.git
+    dest: ~/.rbenv
+  when: rbenv_exists is failed
+
+- name: 環境変数PATHにrbenvのパスを設定
+  template:
+    src: 001_rbenv.sh
+    dest: /etc/profile.d/rbenv.sh
+    owner: root
+    group: root
+    mode: 0755
+  when: rbenv_exists is failed
+
+- name: ruby-buildをインストール
+  git:
+    repo: https://github.com/sstephenson/ruby-build.git
+    dest: ~/.rbenv/plugins/ruby-build
+  when: rbenv_exists is failed
+
+- name: インストール対象のバージョンのrubyがインストール済か確認
+  shell: bash -lc "rbenv versions | grep {{ rbenv_ruby_version }}"
+  register: rbenv_check_install
+  changed_when: False
+  ignore_errors: yes
+
+- name: rubyインストール
+  shell: bash -lc "rbenv install {{ rbenv_ruby_version }}"
+  when: rbenv_check_install is failed
+
+- name: 既にインストール対象のバージョンのrubyがrbenv globalとして設定してあるか確認
+  shell: bash -lc "rbenv version | grep {{ rbenv_ruby_version }}"
+  register: rbenv_check_default
+  changed_when: False
+  ignore_errors: yes
+
+- name: rubyバージョン変更
+  shell: > 
+    bash -lc "rbenv global {{ rbenv_ruby_version }}";
+    bash -lc "rbenv rehash";
+  when: rbenv_check_default is failed
+
+- name: bundleインストール
+  gem:
+    name: bundle
+    executable: "~/.rbenv/shims/gem"

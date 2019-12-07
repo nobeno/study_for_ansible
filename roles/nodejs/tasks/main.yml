@@ -1,0 +1,9 @@
+- name: nodejs準備
+  shell: curl -sL https://rpm.nodesource.com/setup_10.x | sudo -E bash -
+
+- name: nodejsインストール
+  become_user: root
+  become: yes
+  yum:
+    name: nodejs
+    state: latest
