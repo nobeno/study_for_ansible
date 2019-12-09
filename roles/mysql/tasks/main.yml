@@ -1,0 +1,6 @@
+- name: MySQLインストール
+  yum:
+    name:
+      - mysql
+  become_user: root
+  become: yes

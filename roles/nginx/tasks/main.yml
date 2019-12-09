@@ -1,0 +1,28 @@
+- name: Register nginx package
+  yum:
+    name: http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+  become_user: root
+  become: yes
+
+- name: nginxインストール
+  yum:
+    name: nginx
+  become_user: root
+  become: yes
+
+- name: Put local.conf
+  become_user: root
+  become: yes
+  template:
+    src: roles/nginx/templates/nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+
+- name: auto start nginx
+  become_user: root
+  become: yes
+  shell: chkconfig nginx on
+
+- name: restart nginx
+  become_user: root
+  become: yes
+  shell: systemctl restart nginx

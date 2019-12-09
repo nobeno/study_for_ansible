@@ -1,11 +1,17 @@
-- name: ruby/rbenv/bundlerインストール
-  hosts: web
+- name: Railsアプリ環境構築
+  hosts: ec2
   become_user: ec2-user
   become: yes
   vars:
     rbenv_ruby_version: 2.6.4
+    rails_version: 5.2.3
   roles: 
     - git
     - nodejs
     - ruby
-  
+    - rails
+    - mysql
+    - application
+    - nginx
+    - unicorn
+    - env

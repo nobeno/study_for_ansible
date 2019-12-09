@@ -1,0 +1,19 @@
+- name: アプリ配置ディレクトリ権限変更
+  become_user: root
+  become: yes
+  command: chown ec2-user /var
+
+- name: アプリ配置ディレクトリ作成
+  become_user: root
+  become: yes
+  file:
+    path: /var/www/rails
+    state: directory
+    owner: ec2-user
+    group: root
+    mode: 0755
+
+- name: git clone for application
+  git:
+    repo: https://github.com/nobeno/Ruby_RaiseTech04.git
+    dest: /var/www/rails/

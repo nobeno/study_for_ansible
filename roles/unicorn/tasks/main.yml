@@ -1,0 +1,17 @@
+- name: gem install bundle
+  command: gem install bundler
+  args:
+    chdir: /var/www/rails/association_tutorial/
+
+- name: bundle install
+  command: bundle install
+  args:
+    chdir: /var/www/rails/association_tutorial/
+
+- name: Put unicorn.conf
+  template:
+    src: roles/unicorn/templates/unicorn.conf.j2
+    dest: /var/www/rails/association_tutorial/config/unicorn.conf.rb
+
+- name: unicorn 起動
+  command: bundle exec unicorn_rails -c config/unicorn.conf.rb -D -E production

@@ -1,0 +1,4 @@
+- name: Put .env
+  template:
+    src: roles/env/templates/.env.j2
+    dest: /var/www/rails/association_tutorial/.env

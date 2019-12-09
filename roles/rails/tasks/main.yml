@@ -1,0 +1,2 @@
+- name: Railsインストール
+  command: gem install rails -v {{ rails_version }}
