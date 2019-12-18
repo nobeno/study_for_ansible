@@ -35,12 +35,18 @@
   when: rbenv_exists is failed
 
 - name: 環境変数PATHにrbenvのパスを設定
+  become: yes
+  become_user: root
   template:
     src: 001_rbenv.sh
     dest: /etc/profile.d/rbenv.sh
     owner: root
     group: root
     mode: 0755
+  when: rbenv_exists is failed
+
+- name: 設定した環境変数を有効にする
+  shell: "source /etc/profile.d/rbenv.sh"
   when: rbenv_exists is failed
 
 - name: ruby-buildをインストール
