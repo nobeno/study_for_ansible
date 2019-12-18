@@ -12,6 +12,7 @@
     - rails
     - mysql
     - application
+    - compile
+    - env
     - nginx
     - unicorn
-    - env
