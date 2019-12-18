@@ -2,6 +2,6 @@
   yum:
     name:
       - mysql
-  state: present
+    state: present
   become_user: root
   become: yes
