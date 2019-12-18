@@ -9,6 +9,7 @@
   become: yes
   yum:
     name: "{{ packages }}"
+    state: latest
   vars:
     packages:
       - make
