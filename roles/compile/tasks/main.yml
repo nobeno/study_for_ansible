@@ -1,0 +1,9 @@
+- name: rubyのprecompileキャッシュクリア
+  command: bin/rails tmp:cache:clear
+  args:
+    chdir: /var/www/rails/association_tutorial/
+
+- name: rubyのprecompile実施（for production環境）
+  command: rake assets:precompile  RAILS_ENV=production
+  args:
+    chdir: /var/www/rails/association_tutorial/
