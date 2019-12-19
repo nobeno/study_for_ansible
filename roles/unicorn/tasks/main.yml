@@ -13,5 +13,5 @@
     src: roles/unicorn/templates/unicorn.conf.j2
     dest: /var/www/rails/association_tutorial/config/unicorn.conf.rb
 
-- name: unicorn 起動
-  command: bundle exec unicorn_rails -c config/unicorn.conf.rb -D -E production
+# - name: unicorn 起動
+#   command: bundle exec unicorn_rails -c config/unicorn.conf.rb -D -E production
